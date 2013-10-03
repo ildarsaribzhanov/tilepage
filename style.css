@@ -25,3 +25,20 @@ img {border: 0;}
 
 .b_conteiner{width: 100%; min-height: 100%;}
 .b_band{width: 960px; min-height: 400px; margin: 0 auto; border: 1px solid red;}
+
+
+	.tile_content{overflow: hidden;}
+
+		.itemtile_main{width: 100%; height: 100%; position: absolute;}
+
+
+		.b_itemtile{position: relative; margin: 0 0 1% 1%; float: left; background: #aaa;}
+		
+		.b_itemtile_1_1{width: 24%; height: 0px;}
+		.b_itemtile_1_2{width: 24%; height: 0px;}
+		.b_itemtile_2_1{width: 49%; height: 0px;}
+		.b_itemtile_2_2{width: 49%; height: 0px;}
+		.b_itemtile_1_3{width: 24%; height: 0px;}
+		.b_itemtile_3_1{width: 74%; height: 0px;}
+		.b_itemtile_1_4{width: 24%; height: 0px;}
+		.b_itemtile_4_1{width: 100%; height: 0px;}
