@@ -32,7 +32,7 @@ img {border: 0;}
 		.itemtile_main{width: 100%; height: 100%; position: absolute;}
 
 
-		.b_itemtile{position: relative; margin: 0 0 1% 1%; float: left; background: #aaa;}
+		.b_itemtile{position: absolute; margin: 0 0 1% 1%; background: #aaa;}
 		
 		.b_itemtile_1_1{width: 24%; height: 0px;}
 		.b_itemtile_1_2{width: 24%; height: 0px;}
