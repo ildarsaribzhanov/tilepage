@@ -1,7 +1,18 @@
 $(document).ready(function(){
 
+	// TODO
+	/*
+		Пустые клетки. Надо как-то решить
+	*/
+
+	//!!! ненужный код! Нумерация
+	var num_block = 0;
+	$('.b_itemtile').each(function(){
+		$(this).text(++num_block);
+	});
+
 	// основные параметры
-	var count_col = 5;		// количество колонок
+	var count_col = 9;		// количество колонок
 	var distance = 10;		// расстояние между ячейками
 
 	var steck_length = [];	// длинна колонок
@@ -16,11 +27,6 @@ $(document).ready(function(){
 
 	start_size_init();
 
-	//!!! ненужный код!
-	var num_block = 0;
-	$('.b_itemtile').each(function(){
-		$(this).text(++num_block);
-	});
 	
 	// set position
 	// В steck_length запихиваем высоту каждого столбца.
@@ -34,11 +40,11 @@ $(document).ready(function(){
 			'left': pos[1]+'px'
 		});
 
-		// console.log(size)
 
 	});
 
 	// get item block position
+	// itm_block - this div
 	function get_block_position( itm_block ){
 		var min_index = steck_length.indexOf( get_min_val(steck_length) );
 		var size = get_size_block( itm_block );
@@ -50,47 +56,39 @@ $(document).ready(function(){
 			out.push( steck_length[min_index] * ( single_size + distance ) );
 			out.push( min_index*(single_size + distance) );
 			steck_length[min_index] = steck_length[min_index] + size[1];
-		};
+		
+		// более чем в один блок
+		} else {
+			var time_steck_length = steck_length.concat(); 		//	временная переменная для хранения длинн
+			var sub_max = get_max_val( time_steck_length.slice(min_index,min_index+size[0]) );
 
-		// в 2 колонки
-		if( size[0] == 2 )
-		{
-			var time_steck_length = steck_length.concat(); //	временная переменная для хранения длинн
-
-			// в последнюю колонку запихивать блок размером в 2 блока совершенно не логично :)
-			// обезопасим себя присвоив туда максимальное значение
-			if( time_steck_length[count_col-1] < time_steck_length[count_col-2] )
+			while( out.length == 0 )
 			{
-				time_steck_length[count_col-1] = time_steck_length[count_col-2];
-			};
-			
-			
+				min_index = time_steck_length.indexOf( get_min_val(time_steck_length.slice(0,time_steck_length.length - size[0] + 1)) );
+				var sub_max = get_max_val( time_steck_length.slice(min_index,min_index+size[0]) );
 
-			while(  out.length == 0 )
-			{
-				if ( min_index == count_col-1 || time_steck_length[min_index+1] > time_steck_length[min_index] )
-				{
+				if( sub_max != time_steck_length[min_index] ){
 					time_steck_length[min_index] = time_steck_length[min_index] + 1;
 					min_index = time_steck_length.indexOf( get_min_val(time_steck_length) );
-				}
-				else
-				{
+				} else {
 					out.push( time_steck_length[min_index] * ( single_size + distance ) );
 					out.push( min_index*(single_size + distance) );
-				};
+				}
+			}
+
+			sub_max = size[1] + steck_length[min_index];
+			for (var i = min_index; i < min_index + size[0]; i++) {
+				steck_length[i] = sub_max;
 			};
 
-			steck_length[min_index] = steck_length[min_index] + size[1];
-			steck_length[min_index+1] = steck_length[min_index];
-			
 		};
 
-
+		
 		return out;
 	}
 	
 
-	// size initialization
+	// size initialization divs
 	function start_size_init()
 	{
 		$('.b_itemtile').each(function(){
@@ -116,6 +114,16 @@ $(document).ready(function(){
 			return [1,2];
 		};
 
+		if( itm_block.hasClass('b_itemtile_1_3') )
+		{
+			return [1,3];
+		};
+
+		if( itm_block.hasClass('b_itemtile_1_4') )
+		{
+			return [1,4];
+		};
+
 		if( itm_block.hasClass('b_itemtile_2_1') )
 		{
 			return [2,1];
@@ -126,14 +134,14 @@ $(document).ready(function(){
 			return [2,2];
 		};
 
-		if( itm_block.hasClass('b_itemtile_1_3') )
-		{
-			return [1,3];
-		};
-
 		if( itm_block.hasClass('b_itemtile_2_3') )
 		{
 			return [2,3];
+		};
+
+		if( itm_block.hasClass('b_itemtile_2_4') )
+		{
+			return [2,4];
 		};
 
 		if( itm_block.hasClass('b_itemtile_3_1') ){
@@ -149,20 +157,30 @@ $(document).ready(function(){
 		{
 			return [3,3];
 		};
-
-		if( itm_block.hasClass('b_itemtile_1_4') )
+	
+		if( itm_block.hasClass('b_itemtile_3_4') )
 		{
-			return [1,4];
-		};
-
-		if( itm_block.hasClass('b_itemtile_2_4') )
-		{
-			return [2,4];
+			return [3,4];
 		};
 
 		if( itm_block.hasClass('b_itemtile_4_1') )
 		{
 			return [4,1];
+		};
+
+		if( itm_block.hasClass('b_itemtile_4_2') )
+		{
+			return [4,2];
+		};
+
+		if( itm_block.hasClass('b_itemtile_4_3') )
+		{
+			return [4,3];
+		};
+
+		if( itm_block.hasClass('b_itemtile_4_4') )
+		{
+			return [4,4];
 		};
 	};
 
