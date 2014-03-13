@@ -2,7 +2,9 @@ $(document).ready(function(){
 
 	// TODO
 	/*
-		Пустые клетки. Надо как-то решить
+		1. Пустые клетки. Надо как-то решить
+		2. Set min-width div
+		3. Set max-width
 	*/
 
 	//!!! ненужный код! Нумерация
@@ -17,31 +19,53 @@ $(document).ready(function(){
 
 	var steck_length = [];	// длинна колонок
 
-
+	// set size steck_length
 	for (var i = 0; i < count_col; i++) {
 		steck_length.push(0);
 	};
 	
-	// вычисляемые параметры
+	// set size div 1x1
 	var single_size = ($('.tile_content').width()-distance*(count_col-1))/count_col;
 
 	start_size_init();
 
+	$('.tile_content').height( get_max_val(steck_length)*single_size + distance*get_max_val(steck_length) -  distance);
+
+	// on resize window set new position divs
+	$(window).resize(function(){
+		// reset steck_length
+		for (var i = 0; i < count_col; i++) {
+			steck_length[i] = 0;
+		};
+
+		// set size div 1x1
+		single_size = ($('.tile_content').width()-distance*(count_col-1))/count_col;
+
+		start_size_init();
+
+		$('.tile_content').height( get_max_val(steck_length)*single_size + distance*get_max_val(steck_length) -  distance);
+	})
+
 	
-	// set position
-	// В steck_length запихиваем высоту каждого столбца.
-	// Надо определять минимальную высоту и смотеть где соседи не мешают
-	$('.b_itemtile').each(function(){
-		
-		var pos = get_block_position( $(this) );
 
-		$(this).css({
-			'top': pos[0]+'px',
-			'left': pos[1]+'px'
+	// size initialization divs
+	function start_size_init()
+	{
+		$('.b_itemtile').each(function(){
+			var size = get_size_block( $(this) );
+			$(this).css({
+				'width':single_size*size[0]+distance*(size[0]-1),
+				'height':single_size*size[1]+distance*(size[1]-1)
+			});
+
+			var pos = get_block_position( $(this) );
+
+			$(this).css({
+				'top': pos[0]+'px',
+				'left': pos[1]+'px'
+			});
 		});
-
-
-	});
+	};
 
 	// get item block position
 	// itm_block - this div
@@ -85,19 +109,6 @@ $(document).ready(function(){
 
 		
 		return out;
-	}
-	
-
-	// size initialization divs
-	function start_size_init()
-	{
-		$('.b_itemtile').each(function(){
-			var size = get_size_block( $(this) );
-			$(this).css({
-				'width':single_size*size[0]+distance*(size[0]-1),
-				'height':single_size*size[1]+distance*(size[1]-1)
-			});
-		});
 	};
 
 
