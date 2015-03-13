@@ -6,8 +6,8 @@
 			itmClass: 'b_item_tile' // Класс единицы
 		}, opt);
 		
-		self = $(this);
-		itm = $('.' + opt.itmClass);
+		var self = $(this);
+		var itm = $('.' + opt.itmClass);
 
 		var make = function(){
 			// TODO Пустые клетки. Надо как-то решить
@@ -23,11 +23,12 @@
 			}
 
 			// set size div 1x1
+			// Размер одиночного блока
 			var single_size = ( self.width() - opt.distance * (opt.count_col-1)) / opt.count_col;
 
 			start_size_init();
 
-			self.height( get_max_val(stack_length)*single_size + opt.distance*get_max_val(stack_length) -  opt.distance);
+			self.height( get_max_val(stack_length) * single_size + opt.distance * get_max_val(stack_length) -  opt.distance);
 
 			// on resize window set new position divs
 			$(window).resize(function(){
@@ -37,23 +38,22 @@
 				}
 
 				// set size div 1x1
-				single_size = (self.width()-opt.distance*(opt.count_col-1))/opt.count_col;
+				single_size = (self.width() - opt.distance*(opt.count_col-1))/opt.count_col;
 
 				start_size_init();
 
-				self.height( get_max_val(stack_length)*single_size + opt.distance*get_max_val(stack_length) -  opt.distance);
+				self.height( get_max_val(stack_length) * single_size + opt.distance * get_max_val(stack_length) -  opt.distance);
 			});
 
 
 
 			// size initialization divs
-			function start_size_init()
-			{
+			function start_size_init(){
 				self.find(itm).each(function(){
 					var size = get_size_block( $(this) );
 					$(this).css({
-						'width':single_size*size[0]+opt.distance*(size[0]-1),
-						'height':single_size*size[1]+opt.distance*(size[1]-1)
+						'width':single_size * size[0] + opt.distance * (size[0]-1),
+						'height':single_size * size[1] + opt.distance * (size[1]-1)
 					});
 
 					var pos = get_block_position( $(this) );
@@ -76,7 +76,7 @@
 				if( size[0] == 1 )
 				{
 					out.push( stack_length[min_index] * ( single_size + opt.distance ) );
-					out.push( min_index*(single_size + opt.distance) );
+					out.push( min_index * (single_size + opt.distance) );
 					stack_length[min_index] = stack_length[min_index] + size[1];
 
 					// более чем в один блок
@@ -86,7 +86,7 @@
 
 					while( out.length == 0 )
 					{
-						min_index = time_steck_length.indexOf( get_min_val(time_steck_length.slice(0,time_steck_length.length - size[0] + 1)) );
+						min_index = time_steck_length.indexOf( get_min_val(time_steck_length.slice(0, time_steck_length.length - size[0] + 1)) );
 						sub_max = get_max_val( time_steck_length.slice(min_index,min_index+size[0]) );
 
 						if( sub_max != time_steck_length[min_index] ){
@@ -98,7 +98,7 @@
 						}
 					}
 
-					sub_max = size[1] + stack_length[min_index];
+					sub_max = size[1] + time_steck_length[min_index];
 					for (var i = min_index; i < min_index + size[0]; i++) {
 						stack_length[i] = sub_max;
 					}
@@ -111,8 +111,7 @@
 
 
 			// get array size block
-			function get_size_block( itm_block )
-			{
+			function get_size_block( itm_block ){
 				if( itm_block.hasClass('b_itemtile_1_1') )
 				{
 					return [1,1];
@@ -209,9 +208,9 @@
 			// get max index of array
 			function get_max_val( array_val ){
 				var max = array_val[0];
+
 				for (var i = 0; i <= array_val.length - 1; i++) {
-					if( max < array_val[i] )
-					{
+					if( max < array_val[i] ){
 						max = array_val[i];
 					}
 				}
