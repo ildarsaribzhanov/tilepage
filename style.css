@@ -18,13 +18,13 @@ vertical-align: baseline;
 background: transparent; 
 } 
 html, body{height: 100%;}
-body{font-family: Arial; color: #000;}
+body{color: #000;}
 a {color: #000;}
-a: hover{text-decoration: none;}
+a:hover{text-decoration: none;}
 img {border: 0;}
 
 .b_conteiner{width: 100%; min-height: 100%;}
-.b_band{/*width: 960px;*/ min-height: 400px; margin: 0 40px;}
+.b_band{min-height: 400px; margin: 0 40px;}
 
 
 	.tile_content{height: 8000px; position: relative; outline: 1px solid #f00; overflow: hidden;}
